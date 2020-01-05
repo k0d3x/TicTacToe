@@ -8,5 +8,7 @@
 
 
 #define MAIN_MENU_BG "HD1280/HelloWorld.png"
+#define EMPTY_PIECE -1
+
 
 #endif //PROJ_ANDROID_DEFINITIONS_H

@@ -85,6 +85,34 @@ bool SinglePlayer::init()
     }
 
 
+    //The Rectangular 3X3 grid
+    gridSprite = Sprite::create("Grid.png");
+    gridSprite->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2));
+    this->addChild(gridSprite);
+
+    InitGridRects( );
+    InitGridPieces( );
+
+        for ( int x = 0; x < 3; x++ )
+        {
+            for ( int y = 0; y < 3; y++ )
+            {
+                gridArray[x][y] = EMPTY_PIECE;
+            }
+        }
+
+
+
+        EventListenerTouchOneByOne *listener = EventListenerTouchOneByOne::create( );
+            listener->setSwallowTouches( true );
+
+            listener->onTouchBegan = CC_CALLBACK_2( SinglePlayer::onTouchBegan, this );
+            listener->onTouchMoved = CC_CALLBACK_2( SinglePlayer::onTouchMoved, this );
+           // listener->onTouchEnded = CC_CALLBACK_2( SinglePlayer::onTouchEnded, this );
+            //listener->onTouchCancelled = CC_CALLBACK_2( SinglePlayer::onTouchCancelled, this );
+
+            Director::getInstance( )->getEventDispatcher( )->addEventListenerWithSceneGraphPriority( listener, this );
+
 
 
 
@@ -92,6 +120,26 @@ bool SinglePlayer::init()
     return true;
 }
 
+// called when the touch first begins
+bool SinglePlayer::onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *event)
+{
+    return true; // true if the function wants to swallow the touch
+}
+
+
+// called when the user moves their finger
+void SinglePlayer::onTouchMoved(cocos2d::Touch *touch, cocos2d::Event *event)
+{
+
+}
+
+
+
+// called when the device goes to another application such as a phone call
+void SinglePlayer::onTouchCancelled(cocos2d::Touch *touch, cocos2d::Event *event)
+{
+
+}
 
 void SinglePlayer::menuCloseCallback(Ref* pSender)
 {
@@ -104,4 +152,79 @@ void SinglePlayer::menuCloseCallback(Ref* pSender)
     //_eventDispatcher->dispatchEvent(&customEndEvent);
 
 
+}
+
+
+
+void SinglePlayer::InitGridRects( )
+{
+    gridSpaces[0][0] = Rect(gridSprite->getBoundingBox( ).getMinX( ),
+                            gridSprite->getBoundingBox( ).getMinY( ),
+                            gridSprite->getBoundingBox().size.width / 3,
+                            gridSprite->getBoundingBox().size.height / 3
+                            );
+
+    gridSpaces[1][0] = Rect(gridSprite->getBoundingBox( ).getMinX( ) + gridSprite->getBoundingBox().size.width / 3,
+                            gridSprite->getBoundingBox( ).getMinY( ),
+                            gridSprite->getBoundingBox().size.width / 3,
+                            gridSprite->getBoundingBox().size.height / 3
+                            );
+
+    gridSpaces[2][0] = Rect(gridSprite->getBoundingBox( ).getMinX( ) + ( ( gridSprite->getBoundingBox().size.width / 3 ) * 2 ),
+                            gridSprite->getBoundingBox( ).getMinY( ),
+                            gridSprite->getBoundingBox().size.width / 3,
+                            gridSprite->getBoundingBox().size.height / 3
+                            );
+
+    gridSpaces[0][1] = Rect(gridSprite->getBoundingBox( ).getMinX( ),
+                            gridSprite->getBoundingBox( ).getMinY( ) + gridSprite->getBoundingBox().size.height / 3,
+                            gridSprite->getBoundingBox().size.width / 3,
+                            gridSprite->getBoundingBox().size.height / 3
+                            );
+
+    gridSpaces[1][1] = Rect(gridSprite->getBoundingBox( ).getMinX( ) + gridSprite->getBoundingBox().size.width / 3,
+                            gridSprite->getBoundingBox( ).getMinY( ) + gridSprite->getBoundingBox().size.height / 3,
+                            gridSprite->getBoundingBox().size.width / 3,
+                            gridSprite->getBoundingBox().size.height / 3
+                            );
+
+    gridSpaces[2][1] = Rect(gridSprite->getBoundingBox( ).getMinX( ) + ( ( gridSprite->getBoundingBox().size.width / 3 ) * 2 ),
+                            gridSprite->getBoundingBox( ).getMinY( ) + gridSprite->getBoundingBox().size.height / 3,
+                            gridSprite->getBoundingBox().size.width / 3,
+                            gridSprite->getBoundingBox().size.height / 3
+                            );
+
+    gridSpaces[0][2] = Rect(gridSprite->getBoundingBox( ).getMinX( ),
+                            gridSprite->getBoundingBox( ).getMinY( ) + ( ( gridSprite->getBoundingBox().size.height / 3 ) * 2 ),
+                            gridSprite->getBoundingBox().size.width / 3,
+                            gridSprite->getBoundingBox().size.height / 3
+                            );
+
+    gridSpaces[1][2] = Rect(gridSprite->getBoundingBox( ).getMinX( ) + gridSprite->getBoundingBox().size.width / 3,
+                            gridSprite->getBoundingBox( ).getMinY( ) + ( ( gridSprite->getBoundingBox().size.height / 3 ) * 2 ),
+                            gridSprite->getBoundingBox().size.width / 3,
+                            gridSprite->getBoundingBox().size.height / 3
+                            );
+
+    gridSpaces[2][2] = Rect(gridSprite->getBoundingBox( ).getMinX( ) + ( ( gridSprite->getBoundingBox().size.width / 3 ) * 2 ),
+                            gridSprite->getBoundingBox( ).getMinY( ) + ( ( gridSprite->getBoundingBox().size.height / 3 ) * 2 ),
+                            gridSprite->getBoundingBox().size.width / 3,
+                            gridSprite->getBoundingBox().size.height / 3
+                            );
+}
+
+
+void SinglePlayer::InitGridPieces( )
+{
+    for ( int x = 0; x < 3; x++ )
+    {
+        for ( int y = 0; y < 3; y++ )
+        {
+            gridPieces[x][y] = Sprite::create("X.png");
+            gridPieces[x][y]->setPosition( Vec2( gridSprite->getPositionX( ) + ( gridPieces[x][y]->getContentSize( ).width * ( x - 1 ) ), gridSprite->getPositionY( ) + ( gridPieces[x][y]->getContentSize( ).height * ( y - 1 ) ) ) );
+            gridPieces[x][y]->setVisible( false );
+            gridPieces[x][y]->setOpacity( 0 );
+            this->addChild( gridPieces[x][y] );
+        }
+    }
 }
