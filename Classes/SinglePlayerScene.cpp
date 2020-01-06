@@ -267,8 +267,22 @@ void SinglePlayer::CheckAndPlacePiece( cocos2d::Touch *touch )
                 {
                         if ( gridArray[x][y] == EMPTY_PIECE ){
                              CCLOG("Check and place piece method workin");
-                             gridArray[x][y] = turn;
-                             gridPieces[x][y]->setTexture("X.png");
+
+
+                                gridArray[x][y] = turn;
+                              if ( X_PIECE == turn )
+                                                 {
+                                                     gridPieces[x][y]->setTexture("X.png");
+                                                     turn = O_PIECE;
+                                                 }
+
+                               else
+                                                  {
+                                                      gridPieces[x][y]->setTexture("O.png");
+                                                      turn = X_PIECE;
+                                                  }
+
+
                              gridPieces[x][y]->setVisible( true );
                              gridPieces[x][y]->setOpacity( 100 );
                         }
