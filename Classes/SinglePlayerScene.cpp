@@ -25,6 +25,10 @@
 #include "SinglePlayerScene.h"
 #include "SimpleAudioEngine.h"
 #include "Definitions.h"
+#include "extensions/cocos-ext.h"
+#include "ui/CocosGUI.h"
+
+#include "cocos2d.h"
 
 
 USING_NS_CC;
@@ -102,13 +106,15 @@ bool SinglePlayer::init()
         }
 
 
+turn = X_PIECE;
+
 
         EventListenerTouchOneByOne *listener = EventListenerTouchOneByOne::create( );
             listener->setSwallowTouches( true );
 
             listener->onTouchBegan = CC_CALLBACK_2( SinglePlayer::onTouchBegan, this );
             listener->onTouchMoved = CC_CALLBACK_2( SinglePlayer::onTouchMoved, this );
-           // listener->onTouchEnded = CC_CALLBACK_2( SinglePlayer::onTouchEnded, this );
+            listener->onTouchEnded = CC_CALLBACK_2( SinglePlayer::onTouchEnded, this );
             //listener->onTouchCancelled = CC_CALLBACK_2( SinglePlayer::onTouchCancelled, this );
 
             Director::getInstance( )->getEventDispatcher( )->addEventListenerWithSceneGraphPriority( listener, this );
@@ -120,9 +126,12 @@ bool SinglePlayer::init()
     return true;
 }
 
+
+
 // called when the touch first begins
 bool SinglePlayer::onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *event)
 {
+    CCLOG("Touch is working dude");
     return true; // true if the function wants to swallow the touch
 }
 
@@ -130,6 +139,16 @@ bool SinglePlayer::onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *event)
 // called when the user moves their finger
 void SinglePlayer::onTouchMoved(cocos2d::Touch *touch, cocos2d::Event *event)
 {
+
+}
+
+
+// called when the user lifts their finger
+void SinglePlayer::onTouchEnded(cocos2d::Touch *touch, cocos2d::Event *event)
+{
+
+        CCLOG("Lets See");
+        CheckAndPlacePiece(touch);
 
 }
 
@@ -211,6 +230,9 @@ void SinglePlayer::InitGridRects( )
                             gridSprite->getBoundingBox().size.width / 3,
                             gridSprite->getBoundingBox().size.height / 3
                             );
+
+
+                            CCLOG("Individual Rectangle Grid is all initialized");
 }
 
 
@@ -220,11 +242,49 @@ void SinglePlayer::InitGridPieces( )
     {
         for ( int y = 0; y < 3; y++ )
         {
-            gridPieces[x][y] = Sprite::create("X.png");
+            gridPieces[x][y] = Sprite::create("HelloWorld.png");
             gridPieces[x][y]->setPosition( Vec2( gridSprite->getPositionX( ) + ( gridPieces[x][y]->getContentSize( ).width * ( x - 1 ) ), gridSprite->getPositionY( ) + ( gridPieces[x][y]->getContentSize( ).height * ( y - 1 ) ) ) );
+
             gridPieces[x][y]->setVisible( false );
             gridPieces[x][y]->setOpacity( 0 );
             this->addChild( gridPieces[x][y] );
+            CCLOG("Grid Pieces also initialized");
         }
     }
+}
+
+
+void SinglePlayer::CheckAndPlacePiece( cocos2d::Touch *touch )
+{
+    Rect rect1 = gridSprite->getBoundingBox( );
+    Point touchPoint = touch->getLocation( );
+    for ( int x = 0; x < 3; x++ )
+        {
+            for ( int y = 0; y < 3; y++ )
+            {
+
+                if ( gridSpaces[x][y].containsPoint( touchPoint ) )
+                {
+                        if ( gridArray[x][y] == EMPTY_PIECE ){
+                             CCLOG("Check and place piece method workin");
+                             gridArray[x][y] = turn;
+                             gridPieces[x][y]->setTexture("X.png");
+                             gridPieces[x][y]->setVisible( true );
+                             gridPieces[x][y]->setOpacity( 100 );
+                        }
+
+
+                }
+
+
+
+
+
+
+            }
+
+         }
+
+
+
 }

@@ -74,7 +74,7 @@ private:
         int gridArray[3][3];
 
         int turn;
-
+        int gameState;
 
 };
 
