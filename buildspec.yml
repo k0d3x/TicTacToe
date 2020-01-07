@@ -1,0 +1,15 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      java: openjdk8
+      android: 29
+  build:
+    commands:
+       - cd proj.android && ./gradlew assembleDebug
+
+artifacts:
+  files:
+    - proj.android/app/build/outputs/apk/debug/TicTacToe-debug.apk
+  discard-paths: yes
