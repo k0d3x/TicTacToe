@@ -273,18 +273,19 @@ void SinglePlayer::CheckAndPlacePiece( cocos2d::Touch *touch )
                               if ( X_PIECE == turn )
                                                  {
                                                      gridPieces[x][y]->setTexture("X.png");
-                                                     turn = O_PIECE;
+                                                    // turn = O_PIECE;
                                                  }
 
                                else
                                                   {
                                                       gridPieces[x][y]->setTexture("O.png");
-                                                      turn = X_PIECE;
+                                                    //  turn = X_PIECE;
                                                   }
 
 
                              gridPieces[x][y]->setVisible( true );
                              gridPieces[x][y]->setOpacity( 100 );
+                             gridPieces[x][y]->runAction( Sequence::create( FadeIn::create( PIECE_FADE_IN_TIME ), CallFunc::create( std::bind( &SinglePlayer::CheckWin, this, x, y ) ), NULL ) );
                         }
 
                 }
@@ -297,7 +298,32 @@ void SinglePlayer::CheckAndPlacePiece( cocos2d::Touch *touch )
 
 }
 
+void SinglePlayer::CheckWin( int x, int y )
+{
+    Check3PiecesForMatch( 0, 0, 1, 0, 2, 0);
+    Check3PiecesForMatch( 0, 1, 1, 1, 2, 1);
+    Check3PiecesForMatch( 0, 2, 1, 2, 2, 2);
+    Check3PiecesForMatch( 0, 0, 0, 1, 0, 2);
+    Check3PiecesForMatch( 1, 0, 1, 1, 1, 2);
+    Check3PiecesForMatch( 2, 0, 2, 1, 2, 2);
+    Check3PiecesForMatch( 0, 0, 1, 1, 2, 2);
+    Check3PiecesForMatch( 0, 2, 1, 1, 2, 0);
 
+    // check who's current turn it is and switch
+    if ( X_PIECE == turn )
+    {
+        turn = O_PIECE;
+    }
+    else
+    {
+        turn = X_PIECE;
+    }
+
+    if ( STATE_PLACING_PIECE == gameState )
+    {
+        gameState = STATE_PLAYING;
+    }
+}
 
 
 
