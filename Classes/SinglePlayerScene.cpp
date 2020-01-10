@@ -242,7 +242,7 @@ void SinglePlayer::InitGridPieces( )
     {
         for ( int y = 0; y < 3; y++ )
         {
-            gridPieces[x][y] = Sprite::create("HelloWorld.png");
+            gridPieces[x][y] = Sprite::create("X.png");
             gridPieces[x][y]->setPosition( Vec2( gridSprite->getPositionX( ) + ( gridPieces[x][y]->getContentSize( ).width * ( x - 1 ) ), gridSprite->getPositionY( ) + ( gridPieces[x][y]->getContentSize( ).height * ( y - 1 ) ) ) );
 
             gridPieces[x][y]->setVisible( false );
@@ -287,13 +287,7 @@ void SinglePlayer::CheckAndPlacePiece( cocos2d::Touch *touch )
                              gridPieces[x][y]->setOpacity( 100 );
                         }
 
-
                 }
-
-
-
-
-
 
             }
 
@@ -301,4 +295,48 @@ void SinglePlayer::CheckAndPlacePiece( cocos2d::Touch *touch )
 
 
 
+}
+
+
+
+
+
+
+
+void SinglePlayer::Check3PiecesForMatch( int x1, int y1, int x2, int y2, int x3, int y3 )
+{
+    if ( turn == gridArray[x1][y1] && turn == gridArray[x2][y2] && turn == gridArray[x3][y3] )
+    {
+        __String winningPieceStr;
+
+        if ( O_PIECE == turn )
+        {
+            winningPieceStr = O_WINNING_PIECE_FILEPATH;
+        }
+        else
+        {
+            winningPieceStr = X_WINNING_PIECE_FILEPATH;
+        }
+
+        Sprite *winningPieces[3];
+
+        winningPieces[0] = Sprite::create( winningPieceStr.getCString( ) );
+        winningPieces[0]->setPosition( gridPieces[x1][y1]->getPosition( ) );
+        winningPieces[0]->setOpacity( 0 );
+        this->addChild( winningPieces[0] );
+        winningPieces[1] = Sprite::create( winningPieceStr.getCString( ) );
+        winningPieces[1]->setPosition( gridPieces[x2][y2]->getPosition( ) );
+        winningPieces[1]->setOpacity( 0 );
+        this->addChild( winningPieces[1] );
+        winningPieces[2] = Sprite::create( winningPieceStr.getCString( ) );
+        winningPieces[2]->setPosition( gridPieces[x3][y3]->getPosition( ) );
+        winningPieces[2]->setOpacity( 0 );
+        this->addChild( winningPieces[2] );
+
+        winningPieces[0]->runAction( FadeIn::create( PIECE_FADE_IN_TIME ) );
+        winningPieces[1]->runAction( Sequence::create( DelayTime::create( PIECE_FADE_IN_TIME * 0.5 ), FadeIn::create( PIECE_FADE_IN_TIME ), NULL ) );
+        winningPieces[2]->runAction( Sequence::create( DelayTime::create( PIECE_FADE_IN_TIME * 1.5 ), FadeIn::create( PIECE_FADE_IN_TIME ), NULL ) );
+
+        gameState = STATE_WON;
+    }
 }
