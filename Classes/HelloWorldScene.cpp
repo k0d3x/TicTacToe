@@ -125,7 +125,7 @@ bool HelloWorld::init()
 
 
 
-    ui::Button* btn = ui::Button::create("t.png");
+      ui::Button* btn = ui::Button::create("t.png");
         btn->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height * 0.75+ origin.y ));
         btn->addTouchEventListener( CC_CALLBACK_0(HelloWorld::buttonPressed, this) );
         this->addChild(btn);
@@ -133,6 +133,7 @@ bool HelloWorld::init()
 
       cocos2d::ui::Button *plyer2 = cocos2d::ui::Button::create("2player.png");
       plyer2->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height * 0.50+ origin.y ));
+      plyer2->addTouchEventListener( CC_CALLBACK_0(HelloWorld::buttonPressed, this) );
       this->addChild(plyer2);
 
 
