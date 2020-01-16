@@ -3,23 +3,13 @@ MAINTAINER "Rahul Yadav"
 
 RUN mkdir TicTacToe
 
-COPY ./Classes
-WORKDIR /TicTacToe/Classes
+COPY Classes* /TicTacToe/Classes
+COPY Resources* /TicTacToe/Resources
+COPY bin/debug/android* /TicTacToe/bin/debug/android
+COPY cocos2d* /TicTacToe/cocos2d
+COPY firebase_cpp_sdk* /TicTacToe/firebase_cpp_sdk
+COPY proj.android* /TicTacToe/proj.android
 
-COPY ./Resources
-WORKDIR /TicTacToe/Resources
-
-COPY ./bin/debug/android
-WORKDIR /TicTacToe/bin/debug/android
-
-COPY ./cocos2d
-WORKDIR /TicTacToe/cocos2d
-
-COPY ./firebase_cpp_sdk
-WORKDIR /TicTacToe/firebase_cpp_sdk
-
-COPY ./proj.android
-WORKDIR /TicTacToe/proj.android
 
 RUN cd..
 RUN cd TicTacToe/proj.android
