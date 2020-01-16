@@ -1,4 +1,4 @@
-FROM asia.gcr.io/tictactoegame-264817/cocos2dx-docker
+FROM fsk00x/cocos2dx-docker:v1
 RUN mkdir TicTacToe
 WORKDIR /TicTacToe
 COPY ./Classes* Classes
