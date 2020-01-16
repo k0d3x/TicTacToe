@@ -9,6 +9,5 @@ COPY ./firebase_cpp_sdk* firebase_cpp_sdk
 COPY ./proj.android* proj.android
 RUN cd ..
 RUN pwd
-RUN cd TicTacToe
 RUN cd proj.android
 RUN cocos compile -p android
