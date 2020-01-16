@@ -8,5 +8,6 @@ COPY ./cocos2d* cocos2d
 COPY ./firebase_cpp_sdk* firebase_cpp_sdk
 COPY ./proj.android* proj.android
 RUN cd ..
-RUN cd TicTacToe/proj.android
+RUN cd TicTacToe
+RUN cd proj.android
 RUN cocos compile -p android
