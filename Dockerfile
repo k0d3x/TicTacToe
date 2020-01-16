@@ -1,2 +1,2 @@
-FROM fsk00x/cocos2dx-docker:v1
+FROM asia.gcr.io/tictactoegame-264817/cocos2dx-docker@sha256:10e8402b00ffaa42a065538b4ffc4873d95b5c11f8d3a7014f4b5cd33392a272
 RUN cocos -v
