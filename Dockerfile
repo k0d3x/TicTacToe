@@ -1,4 +1,5 @@
 FROM fsk00x/cocos2dx-docker:v1
+VOLUME https://console.cloud.google.com/storage/browser/cocos2dx_artifacts
 COPY Classes* /Classes
 
 COPY Resources* /Resources
