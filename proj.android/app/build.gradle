@@ -9,6 +9,7 @@ android {
         applicationId "com.fsk00x.TicTacToe"
         minSdkVersion PROP_MIN_SDK_VERSION
         targetSdkVersion PROP_TARGET_SDK_VERSION
+	multiDexEnabled true
         versionCode 1
         versionName "1.0"
 
