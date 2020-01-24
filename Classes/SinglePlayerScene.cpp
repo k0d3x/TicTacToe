@@ -27,7 +27,7 @@
 #include "Definitions.h"
 #include "extensions/cocos-ext.h"
 #include "ui/CocosGUI.h"
-
+#include "MainMenuScene.h"
 #include "cocos2d.h"
 
 
@@ -37,7 +37,10 @@ USING_NS_CC;
 
 Scene* SinglePlayer::createScene()
 {
+    CCLOG("SinglePlayer createScene");
+
     return SinglePlayer::create();
+
 }
 
 // Print useful error message instead of segfaulting when files are not there.
@@ -89,8 +92,23 @@ bool SinglePlayer::init()
     }
 
 
+    auto bg = Sprite::create(GAME_BACKGROUND);
+    bg->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2));
+    this->addChild(bg);
+
+//    auto backButton = Sprite::create(BACK_BUTTON);
+//    backButton->setPosition(Vec2(visibleSize.width * 0.18 + origin.x, visibleSize.height * 0.92+ origin.y ));
+//    this->addChild(backButton);
+
+    ui::Button* backButton = ui::Button::create(BACK_BUTTON);
+    backButton->setPosition(Vec2(visibleSize.width * 0.18 + origin.x, visibleSize.height * 0.92+ origin.y ));
+    backButton->addTouchEventListener( CC_CALLBACK_0(SinglePlayer::backButton, this) );
+    this->addChild(backButton);
+
+
+
     //The Rectangular 3X3 grid
-    gridSprite = Sprite::create("Grid.png");
+    gridSprite = Sprite::create(GRID_BACKGROUND);
     gridSprite->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2));
     this->addChild(gridSprite);
 
@@ -175,6 +193,8 @@ void SinglePlayer::menuCloseCallback(Ref* pSender)
 
 
 
+
+
 void SinglePlayer::InitGridRects( )
 {
     gridSpaces[0][0] = Rect(gridSprite->getBoundingBox( ).getMinX( ),
@@ -242,7 +262,7 @@ void SinglePlayer::InitGridPieces( )
     {
         for ( int y = 0; y < 3; y++ )
         {
-            gridPieces[x][y] = Sprite::create("X.png");
+            gridPieces[x][y] = Sprite::create(XPIECE);
             gridPieces[x][y]->setPosition( Vec2( gridSprite->getPositionX( ) + ( gridPieces[x][y]->getContentSize( ).width * ( x - 1 ) ), gridSprite->getPositionY( ) + ( gridPieces[x][y]->getContentSize( ).height * ( y - 1 ) ) ) );
 
             gridPieces[x][y]->setVisible( false );
@@ -272,13 +292,13 @@ void SinglePlayer::CheckAndPlacePiece( cocos2d::Touch *touch )
                                 gridArray[x][y] = turn;
                               if ( X_PIECE == turn )
                                                  {
-                                                     gridPieces[x][y]->setTexture("X.png");
+                                                     gridPieces[x][y]->setTexture(XPIECE);
                                                     // turn = O_PIECE;
                                                  }
 
                                else
                                                   {
-                                                      gridPieces[x][y]->setTexture("O.png");
+                                                      gridPieces[x][y]->setTexture(OPIECE);
                                                     //  turn = X_PIECE;
                                                   }
 
@@ -366,3 +386,11 @@ void SinglePlayer::Check3PiecesForMatch( int x1, int y1, int x2, int y2, int x3,
         gameState = STATE_WON;
     }
 }
+
+
+void SinglePlayer::backButton(){
+    auto scene = MainMenu::createScene();
+    CCLOG("origin: { %d }", 12);
+    Director::getInstance()->pushScene(scene);
+}
+

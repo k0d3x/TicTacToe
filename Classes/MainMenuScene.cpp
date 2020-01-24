@@ -22,29 +22,30 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "HelloWorldScene.h"
+#include "MainMenuScene.h"
 #include "SimpleAudioEngine.h"
 #include "Definitions.h"
 #include "SinglePlayerScene.h"
+#include "AIGameScene.h"
 
 USING_NS_CC;
 
 
 
-Scene* HelloWorld::createScene()
+Scene* MainMenu::createScene()
 {
-    return HelloWorld::create();
+    return MainMenu::create();
 }
 
 // Print useful error message instead of segfaulting when files are not there.
 static void problemLoading(const char* filename)
 {
     printf("Error while loading: %s\n", filename);
-    printf("Depending on how you compiled you might have to add 'Resources/' in front of filenames in HelloWorldScene.cpp\n");
+    printf("Depending on how you compiled you might have to add 'Resources/' in front of filenames in HelloMainMenu.cpp\n");
 }
 
 // on "init" you need to initialize your instance
-bool HelloWorld::init()
+bool MainMenu::init()
 {
     //////////////////////////////
     // 1. super init first
@@ -66,9 +67,9 @@ bool HelloWorld::init()
 
     // add a "close" icon to exit the progress. it's an autorelease object
     auto closeItem = MenuItemImage::create(
-                                           "CloseNormal.png",
-                                           "CloseSelected.png",
-                                           CC_CALLBACK_1(HelloWorld::menuCloseCallback, this));
+            "CloseNormal.png",
+            "CloseSelected.png",
+            CC_CALLBACK_1(MainMenu::menuCloseCallback, this));
 
     if (closeItem == nullptr ||
         closeItem->getContentSize().width <= 0 ||
@@ -94,7 +95,7 @@ bool HelloWorld::init()
     // add a label shows "Hello World"
     // create and initialize a label
 
-    auto label = Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24);
+    auto label = Label::createWithTTF("Ameer-Rahul", "fonts/Marker Felt.ttf", 24);
     if (label == nullptr)
     {
         problemLoading("'fonts/Marker Felt.ttf'");
@@ -112,41 +113,40 @@ bool HelloWorld::init()
 
 
 
-    auto bg = Sprite::create("BG.png");
+    auto bg = Sprite::create(MAIN_MENU_BACKGROUND);
     bg->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2));
     this->addChild(bg);
 
 
-   // cocos2d::ui::Button *playButton = cocos2d::ui::Button::create("t.png");
+    // cocos2d::ui::Button *playButton = cocos2d::ui::Button::create("t.png");
     //playButton->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height * 0.75 + origin.y ));
     //this->addChild(playButton);
 
-   // playButton->addTouchEventListener( CC_CALLBACK_0(HelloWorld::changeScene, this) );
+    // playButton->addTouchEventListener( CC_CALLBACK_0(HelloWorld::changeScene, this) );
+
+    ui::Button* btn = ui::Button::create(MAIN_MENU_PLAY_BUTTON);
+    btn->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height * 0.50+ origin.y ));
+    btn->addTouchEventListener( CC_CALLBACK_0(MainMenu::playButton, this) );
+    this->addChild(btn);
 
 
-
-      ui::Button* btn = ui::Button::create("t.png");
-        btn->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height * 0.50+ origin.y ));
-        btn->addTouchEventListener( CC_CALLBACK_0(HelloWorld::buttonPressed, this) );
-        this->addChild(btn);
-
-
-      cocos2d::ui::Button *plyer2 = cocos2d::ui::Button::create("2player.png");
-      plyer2->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height * 0.40+ origin.y ));
-      plyer2->addTouchEventListener( CC_CALLBACK_0(HelloWorld::buttonPressed, this) );
-      this->addChild(plyer2);
+    ui::Button *plyer2 = ui::Button::create(MAIN_MENU_MULTIPLAYER_BUTTON);
+    plyer2->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height * 0.40+ origin.y ));
+    plyer2->addTouchEventListener( CC_CALLBACK_0(MainMenu::multiPlayButton, this) );
+    this->addChild(plyer2);
 
 
-      cocos2d::ui::Button *exitButton = cocos2d::ui::Button::create("exit.png");
-      exitButton->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height * 0.30 + origin.y ));
-      this->addChild(exitButton);
+    ui::Button *exitButton = ui::Button::create(EXIT_BUTTON);
+    exitButton->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height * 0.30 + origin.y ));
+    exitButton->addTouchEventListener( CC_CALLBACK_0(MainMenu::exitButton, this) );
+    this->addChild(exitButton);
 
 
     return true;
 }
 
 
-void HelloWorld::menuCloseCallback(Ref* pSender)
+void MainMenu::menuCloseCallback(Ref* pSender)
 {
     //Close the cocos2d-x game scene and quit the application
     Director::getInstance()->end();
@@ -161,10 +161,10 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 
 
 
-void HelloWorld::changeScene(Ref* pSender)
+void MainMenu::changeScene(Ref* pSender)
 {
     //Close the cocos2d-x game scene and quit the application
-   // Director::getInstance()->end();
+    // Director::getInstance()->end();
 
     /*To navigate back to native iOS screen(if present) without quitting the application  ,do not use Director::getInstance()->end() as given above,instead trigger a custom event created in RootViewController.mm as below*/
 
@@ -176,15 +176,22 @@ void HelloWorld::changeScene(Ref* pSender)
 }
 
 
-
-void HelloWorld::buttonPressed() {
+void MainMenu::playButton() {
     //_eventDispatcher->dispatchEvent(&customEndEvent);
-        auto scene = SinglePlayer::createScene();
-
-        Director::getInstance()->pushScene(scene);
+    auto scene = AIGame::createScene();
+    CCLOG("playbutton");
+    Director::getInstance()->pushScene(scene);
 }
+void MainMenu::multiPlayButton(){
+    auto scene = SinglePlayer::createScene();
+    CCLOG("multiPlayButton");
+    Director::getInstance()->pushScene(scene);
+}
+void MainMenu::exitButton(){
+    CCLOG("exitButton");
 
-
+    Director::getInstance()->end();
+}
 
 // Added Build trigger
 

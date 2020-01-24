@@ -22,18 +22,19 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __SINGLEPLAYER_SCENE_H__
-#define __SINGLEPLAYER_SCENE_H__
+#ifndef __AIGAME_SCENE_H__
+#define __AIGAME_SCENE_H__
 #include "extensions/cocos-ext.h"
 #include "ui/CocosGUI.h"
 #include "Definitions.h"
 #include "cocos2d.h"
+#include "AI.h"
 
 
 
 
 
-class SinglePlayer : public cocos2d::Scene
+class AIGame : public cocos2d::Scene
 {
 public:
     static cocos2d::Scene* createScene();
@@ -44,10 +45,9 @@ public:
     void menuCloseCallback(cocos2d::Ref* pSender);
     
     // implement the "static create()" method manually
-    CREATE_FUNC(SinglePlayer);
+    CREATE_FUNC(AIGame);
 
 private:
-    void touchEvent( Ref *sender,cocos2d::ui::Widget::TouchEventType type);
 
         // called when the touch first begins
         bool onTouchBegan( cocos2d::Touch *touch, cocos2d::Event *event );
@@ -67,7 +67,7 @@ private:
         // check if the user has won
         void CheckWin( int x, int y );
         // check a particular set of pieces
-        void Check3PiecesForMatch( int x1, int y1, int x2, int y2, int x3, int y3 );
+        void Check3PiecesForMatch( int x1, int y1, int x2, int y2, int x3, int y3, int pieceToCheck );
 
         void backButton();
 
@@ -78,7 +78,7 @@ private:
 
         int turn;
         int gameState;
-
+        AI *ai;
 };
 
-#endif // __SINGLEPLAYER_SCENE_H__
+#endif  __AIGAME_SCENE_H__
