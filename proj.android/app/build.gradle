@@ -44,6 +44,7 @@ android {
         ndk {
             abiFilters = []
             abiFilters.addAll(PROP_APP_ABI.split(':').collect{it as String})
+            //stl "c++_static"
         }
     }
 
@@ -130,6 +131,6 @@ dependencies {
     implementation 'com.android.support:multidex:1.0.3'
     implementation 'com.google.firebase:firebase-auth:19.2.0'
     implementation 'com.google.firebase:firebase-firestore:21.3.1'
-    //implementation 'com.google.firebase:firebase-ads:18.3.0'
+    implementation 'com.google.firebase:firebase-ads:18.3.0'
 }
 apply plugin: 'com.google.gms.google-services'

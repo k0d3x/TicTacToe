@@ -32,13 +32,13 @@
 
 
 
-class HelloWorld : public cocos2d::Scene
+class MainMenu : public cocos2d::Scene
 {
 public:
     static cocos2d::Scene* createScene();
 
     virtual bool init();
-    
+
     // a selector callback
     void menuCloseCallback(cocos2d::Ref* pSender);
 
@@ -47,10 +47,13 @@ public:
     void changeScene(cocos2d::Ref* pSender);
 
     // Callbacks
-        void buttonPressed();
+    void playButton();
+    void multiPlayButton();
+    void exitButton();
+
 
     // implement the "static create()" method manually
-    CREATE_FUNC(HelloWorld);
+    CREATE_FUNC(MainMenu);
 
 private:
     void touchEvent( Ref *sender,cocos2d::ui::Widget::TouchEventType type);
