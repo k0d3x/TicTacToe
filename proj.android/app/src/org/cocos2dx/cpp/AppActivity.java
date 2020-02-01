@@ -30,12 +30,23 @@ import android.os.Build;
 import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
+
 public class AppActivity extends Cocos2dxActivity {
+
+
+    private AdView adView;
+    private static final String AD_UNIT_ID = "ca-app-pub-7467344290953936~9036442020";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.setEnableVirtualButton(false);
         super.onCreate(savedInstanceState);
+
+       // MobileAds.initialize(this, "ca-app-pub-7467344290953936~9036442020");
+
         // Workaround in https://stackoverflow.com/questions/16283079/re-launch-of-activity-on-home-button-but-only-the-first-time/16447508
         if (!isTaskRoot()) {
             // Android launched another instance of the root activity into an existing task
@@ -52,7 +63,34 @@ public class AppActivity extends Cocos2dxActivity {
             getWindow().setAttributes(lp);
         }
         // DO OTHER INITIALIZATION BELOW
-        
+
+
+
+      //  FrameLayout.LayoutParams adParams = new FrameLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+
+
+
+        adView = new AdView(this);
+//        adView.setAdSize(getAdSize());
+//        adView.setAdUnitId(AD_UNIT_ID);
+//        adView.setVisibility(View.GONE);
+//        addContentView(adView, adParams);
+//
+//        adParams.gravity = Gravity.CENTER_VERTICAL | Gravity.BOTTOM;
+//        adView.setLayoutParams(adParams);
+//        adView.setVisibility(View.VISIBLE);
+//
+//
+//        AdRequest adRequest = new AdRequest.Builder()
+//                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+//                .addTestDevice("83AE15BDE9D4148E2C9A4938E8F764B5")
+//                .build();
+//
+//        adView.loadAd(adRequest);
+//        adView.bringToFront();
+
+
     }
 
 }

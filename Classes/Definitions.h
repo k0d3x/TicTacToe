@@ -23,10 +23,10 @@
 #define O_SCORE
 #define XPIECE "x-piece.png"
 #define OPIECE "o-piece.png"
-#define HORIZONTAL_WIN_STRIKE_FILEPATH "horizontal-strike.png"
-#define VERTICLE_WIN_STRIKE_FILEPATH "vertical-strike.png"
-#define LEFT_DIAGONAL_WIN_STRIKE_FILEPATH "left-diagonal-strike.png"
-#define RIGHT_DIAGONAL_WIN_STRIKE_FILEPATH "right-diagonal-strike.png"
+#define HORIZONTAL_WIN_STRIKE "horizontal-strike.png"
+#define VERTICLE_WIN_STRIKE "vertical-strike.png"
+#define LEFT_DIAGONAL_WIN_STRIKE "left-diagonal-strike.png"
+#define RIGHT_DIAGONAL_WIN_STRIKE "right-diagonal-strike.png"
 #define HD1280_RESOURSE_FOLDERPATH "HD1280"
 #define HD1920_RESOURSE_FOLDERPATH "HD1920"
 #define HDX_RESOURSE_FOLDERPATH "HDX"
@@ -50,6 +50,10 @@
 #define STATE_AI_PLAYING 93
 #define STATE_DRAW 92
 
+#define VERTICLE_WIN 1001
+#define HORIZONTAL_WIN 1002
+#define LEFT_DIAGONAL_WIN 1003
+#define RIGHT_DIAGONAL_WIN 1004
 
 #define PIECE_FADE_IN_TIME 0.2
 
